@@ -18,7 +18,8 @@ const remove = ({ collectionPath }) => async (payload) => {
   if (!payload) throw Error("Payload is required");
   let data = [];
   if (Object.keys(payload).length !== 0) {
-    // Whatever the payload says
+    const numberOfDeleted = await utils.remove({ collectionPath, payload });
+    return { numberOfDeleted };
   }
   await utils.write({ collectionPath, data });
   return { isDeleted: true };

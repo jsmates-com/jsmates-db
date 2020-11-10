@@ -6,6 +6,26 @@ const run = async () => {
 
   const Authors = await db.getCollection("authors");
 
+  // Remove data
+  const removeAuthorById = await Authors.remove({
+    _id: "ckhc7kqp800004jzvcad675k0",
+  });
+  const removeByKeys = await Authors.remove({
+    name: "Joshua",
+    _id: "ckhc7kqp800014jzv1cqd0a8u",
+  });
+  const dontRemove = await Authors.remove({
+    name: "Af",
+    _id: "ckhc7kqp900024jzvd1kj4ptq",
+  });
+
+  console.table([removeAuthorById, removeByKeys, dontRemove]);
+};
+
+// Start the examples
+run();
+
+/**
   // Delete all data in the collection
   await Authors.remove({});
 
@@ -18,12 +38,6 @@ const run = async () => {
     {
       name: "Joshua",
     },
-    { name: "Afrin " },
+    { name: "Afrin" },
   ]);
-
-  console.table(authors);
-  console.table([author]);
-};
-
-// Start the examples
-run();
+ */

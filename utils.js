@@ -2,7 +2,7 @@ const cuid = require("cuid");
 const fs = require("fs-extra");
 const path = require("path");
 
-module.exports = {
+const utils = {
   collection: ({ collectionFileName, database, dbPath }) => {
     const collectionName = `${collectionFileName}.json`;
     const isCollectionExist = database.includes(collectionName);
@@ -22,4 +22,16 @@ module.exports = {
       _id: cuid(),
     };
   },
+  remove: async ({ collectionPath, payload }) => {
+    const data = await utils.read({ collectionPath });
+    const filteredData = data.filter((document) => {
+      return !Object.entries(payload).every(([key, value]) => {
+        return document[key] === value;
+      });
+    });
+    await utils.write({ collectionPath, data: filteredData });
+    return data.length - filteredData.length;
+  },
 };
+
+module.exports = utils;
