@@ -1,3 +1,4 @@
+const cuid = require("cuid");
 const fs = require("fs-extra");
 const path = require("path");
 
@@ -14,5 +15,11 @@ module.exports = {
   read: async ({ collectionPath }) => {
     const data = await fs.readFile(collectionPath);
     return JSON.parse(data);
+  },
+  objectId: (payload) => {
+    return {
+      ...payload,
+      _id: cuid(),
+    };
   },
 };
